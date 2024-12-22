@@ -25,7 +25,7 @@ public class Driver {
     private String vehicleId;
 
     //Added the Point which is from jts.geom package also added the column defination which is compulsory as it will help(It says that we are dealing with earth's (long,lat))
-    @Column(columnDefinition = "Geometry(Point, 4326)")
+    @Column(columnDefinition = "geometry(Point, 4326)")
     Point currentLocation;
 
 
