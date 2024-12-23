@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
-    private final ModelMapper modelMapper;
     private final WalletTransactionService walletTransactionService;
 
 
