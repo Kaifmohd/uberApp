@@ -1,8 +1,5 @@
 package com.sdekaif.project.uberbackend.uberApp.services.impl;
 
-import com.sdekaif.project.uberbackend.uberApp.dto.RideDto;
-import com.sdekaif.project.uberbackend.uberApp.dto.WalletDto;
-import com.sdekaif.project.uberbackend.uberApp.dto.WalletTransactionDto;
 import com.sdekaif.project.uberbackend.uberApp.entities.Ride;
 import com.sdekaif.project.uberbackend.uberApp.entities.User;
 import com.sdekaif.project.uberbackend.uberApp.entities.Wallet;

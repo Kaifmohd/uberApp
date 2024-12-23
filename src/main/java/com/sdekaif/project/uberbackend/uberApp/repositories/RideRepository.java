@@ -4,7 +4,6 @@ import com.sdekaif.project.uberbackend.uberApp.entities.Driver;
 import com.sdekaif.project.uberbackend.uberApp.entities.Ride;
 import com.sdekaif.project.uberbackend.uberApp.entities.Rider;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

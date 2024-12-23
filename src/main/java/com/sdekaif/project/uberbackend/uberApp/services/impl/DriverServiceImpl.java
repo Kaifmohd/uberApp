@@ -8,7 +8,6 @@ import com.sdekaif.project.uberbackend.uberApp.entities.Ride;
 import com.sdekaif.project.uberbackend.uberApp.entities.RideRequest;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.RideRequestStatus;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.RideStatus;
-import com.sdekaif.project.uberbackend.uberApp.exceptions.ResourceNotFoundException;
 import com.sdekaif.project.uberbackend.uberApp.repositories.DriverRepository;
 import com.sdekaif.project.uberbackend.uberApp.services.*;
 import jakarta.transaction.Transactional;
@@ -16,11 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

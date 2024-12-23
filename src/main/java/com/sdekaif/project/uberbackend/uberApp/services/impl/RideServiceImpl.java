@@ -1,6 +1,5 @@
 package com.sdekaif.project.uberbackend.uberApp.services.impl;
 
-import com.sdekaif.project.uberbackend.uberApp.dto.RideRequestDto;
 import com.sdekaif.project.uberbackend.uberApp.entities.Driver;
 import com.sdekaif.project.uberbackend.uberApp.entities.Ride;
 import com.sdekaif.project.uberbackend.uberApp.entities.RideRequest;

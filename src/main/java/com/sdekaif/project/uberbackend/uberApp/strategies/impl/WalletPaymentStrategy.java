@@ -6,12 +6,10 @@ import com.sdekaif.project.uberbackend.uberApp.entities.Rider;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.PaymentStatus;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.TransactionMethod;
 import com.sdekaif.project.uberbackend.uberApp.repositories.PaymentRepository;
-import com.sdekaif.project.uberbackend.uberApp.services.PaymentService;
 import com.sdekaif.project.uberbackend.uberApp.services.WalletService;
 import com.sdekaif.project.uberbackend.uberApp.strategies.PaymentStrategy;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 @Service

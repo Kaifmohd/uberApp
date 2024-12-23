@@ -5,7 +5,6 @@ import com.sdekaif.project.uberbackend.uberApp.entities.Payment;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.PaymentStatus;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.TransactionMethod;
 import com.sdekaif.project.uberbackend.uberApp.repositories.PaymentRepository;
-import com.sdekaif.project.uberbackend.uberApp.services.PaymentService;
 import com.sdekaif.project.uberbackend.uberApp.services.WalletService;
 import com.sdekaif.project.uberbackend.uberApp.strategies.PaymentStrategy;
 import lombok.RequiredArgsConstructor;

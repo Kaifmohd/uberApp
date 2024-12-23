@@ -9,8 +9,6 @@ import com.sdekaif.project.uberbackend.uberApp.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
-import java.util.List;
-
 public interface RiderService {
 
 

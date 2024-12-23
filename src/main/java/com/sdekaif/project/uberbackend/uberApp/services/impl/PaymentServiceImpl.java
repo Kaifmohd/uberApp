@@ -6,7 +6,6 @@ import com.sdekaif.project.uberbackend.uberApp.entities.enums.PaymentStatus;
 import com.sdekaif.project.uberbackend.uberApp.exceptions.ResourceNotFoundException;
 import com.sdekaif.project.uberbackend.uberApp.repositories.PaymentRepository;
 import com.sdekaif.project.uberbackend.uberApp.services.PaymentService;
-import com.sdekaif.project.uberbackend.uberApp.strategies.PaymentStrategy;
 import com.sdekaif.project.uberbackend.uberApp.strategies.PaymentStrategyManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
