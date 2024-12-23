@@ -1,13 +1,14 @@
 package com.sdekaif.project.uberbackend.uberApp.controllers;
 
+import com.sdekaif.project.uberbackend.uberApp.dto.DriverDto;
+import com.sdekaif.project.uberbackend.uberApp.dto.OnboardDriverDto;
 import com.sdekaif.project.uberbackend.uberApp.dto.SignUpDto;
 import com.sdekaif.project.uberbackend.uberApp.dto.UserDto;
 import com.sdekaif.project.uberbackend.uberApp.services.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -17,7 +18,13 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    UserDto signUp(@RequestBody SignUpDto signUpDto){
-        return authService.signup(signUpDto);
+    ResponseEntity<UserDto> signUp(@RequestBody SignUpDto signUpDto){
+        return new ResponseEntity<>(authService.signup(signUpDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/onBoardNewDriver/{userId}")
+    ResponseEntity<DriverDto> onBoardNewDriver(@PathVariable Long userId, @RequestBody OnboardDriverDto onboardDriverDto){
+        return new ResponseEntity<>(authService.onboardNewDriver(userId,
+                onboardDriverDto.getVehicleId()), HttpStatus.CREATED);
     }
 }

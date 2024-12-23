@@ -10,9 +10,7 @@ import com.sdekaif.project.uberbackend.uberApp.entities.enums.RideRequestStatus;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.RideStatus;
 import com.sdekaif.project.uberbackend.uberApp.exceptions.ResourceNotFoundException;
 import com.sdekaif.project.uberbackend.uberApp.repositories.DriverRepository;
-import com.sdekaif.project.uberbackend.uberApp.services.DriverService;
-import com.sdekaif.project.uberbackend.uberApp.services.RideRequestService;
-import com.sdekaif.project.uberbackend.uberApp.services.RideService;
+import com.sdekaif.project.uberbackend.uberApp.services.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -32,6 +30,8 @@ public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
     private final RideService rideService;
     private final ModelMapper modelMapper;
+    private final PaymentService paymentService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -80,24 +80,53 @@ public class DriverServiceImpl implements DriverService {
         if(!ride.getRideStatus().equals(RideStatus.CONFIRMED)){
             throw new RuntimeException("Ride status is not CONFIRMED hence cannot be started, status : " + ride.getRideStatus());
         }
-        if(otp.equals(ride.getOtp())){
+        if(!otp.equals(ride.getOtp())){
             throw new RuntimeException("OTP cannot be accepted. otp is " + otp);
         }
 
         ride.setStartedAt(LocalDateTime.now());
         Ride savedRide = rideService.updateRideStatus(ride,RideStatus.ONGOING);
+
+        paymentService.createNewPayment(savedRide);
+        ratingService.createNewRating(savedRide);
+
         return modelMapper.map(savedRide, RideDto.class);
 
     }
 
     @Override
+    @Transactional
     public RideDto endRide(Long rideId) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+        if(!driver.equals(ride.getDriver())){
+            throw new RuntimeException("Driver does not belong to this ride");
+        }
+        if(!ride.getRideStatus().equals(RideStatus.ONGOING)){
+            throw new RuntimeException("Ride status is not ONGOING hence cannot be ended, status : " + ride.getRideStatus());
+        }
+        ride.setEndedAt(LocalDateTime.now());
+        Ride savedRide = rideService.updateRideStatus(ride,RideStatus.ENDED);
+        updateDriverAvailability(driver,true);
+
+        paymentService.processPayment(ride);
+
+        return modelMapper.map(savedRide, RideDto.class);
     }
 
     @Override
     public RiderDto rateRider(Long rideId, Integer rating) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
+        if(!driver.equals(ride.getDriver())){
+            throw new RuntimeException("Driver does not belong to this ride hence cannot rate");
+        }
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride status is not CONFIRMED hence cannot be started, status : " + ride.getRideStatus());
+        }
+
+
+        return ratingService.rateRider(ride,rating);
     }
 
     @Override
@@ -120,6 +149,11 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public Driver updateDriverAvailability(Driver driver, boolean available) {
         driver.setAvailable(available);
+        return driverRepository.save(driver);
+    }
+
+    @Override
+    public Driver createNewDriver(Driver driver) {
         return driverRepository.save(driver);
     }
 }

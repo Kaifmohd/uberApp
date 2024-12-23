@@ -11,6 +11,7 @@ import com.sdekaif.project.uberbackend.uberApp.exceptions.ResourceNotFoundExcept
 import com.sdekaif.project.uberbackend.uberApp.repositories.RideRequestRepository;
 import com.sdekaif.project.uberbackend.uberApp.repositories.RiderRepository;
 import com.sdekaif.project.uberbackend.uberApp.services.DriverService;
+import com.sdekaif.project.uberbackend.uberApp.services.RatingService;
 import com.sdekaif.project.uberbackend.uberApp.services.RideService;
 import com.sdekaif.project.uberbackend.uberApp.services.RiderService;
 import com.sdekaif.project.uberbackend.uberApp.strategies.RideStrategyManager;
@@ -35,6 +36,7 @@ public class RiderServiceImpl implements RiderService {
     private final RiderRepository riderRepository;
     private final RideService rideService;
     private final DriverService driverService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -75,8 +77,18 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public DriverDto rateRider(Long rideId, Integer rating) {
-        return null;
+    public DriverDto rateDriver(Long rideId, Integer rating) {
+        Ride ride = rideService.getRideById(rideId);
+        Rider rider = getCurrentRider();
+        if(!rider.equals(ride.getRider())){
+            throw new RuntimeException("Rider does not belong to this ride hence cannot rate");
+        }
+        if(!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("Ride status is not CONFIRMED hence cannot be started, status : " + ride.getRideStatus());
+        }
+
+
+        return ratingService.rateDriver(ride,rating);
     }
 
     @Override
