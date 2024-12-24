@@ -12,7 +12,6 @@ import com.sdekaif.project.uberbackend.uberApp.services.WalletService;
 import com.sdekaif.project.uberbackend.uberApp.services.WalletTransactionService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 

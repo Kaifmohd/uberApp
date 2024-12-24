@@ -6,8 +6,10 @@ import com.sdekaif.project.uberbackend.uberApp.dto.RiderDto;
 import com.sdekaif.project.uberbackend.uberApp.entities.Driver;
 import com.sdekaif.project.uberbackend.uberApp.entities.Ride;
 import com.sdekaif.project.uberbackend.uberApp.entities.RideRequest;
+import com.sdekaif.project.uberbackend.uberApp.entities.User;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.RideRequestStatus;
 import com.sdekaif.project.uberbackend.uberApp.entities.enums.RideStatus;
+import com.sdekaif.project.uberbackend.uberApp.exceptions.ResourceNotFoundException;
 import com.sdekaif.project.uberbackend.uberApp.repositories.DriverRepository;
 import com.sdekaif.project.uberbackend.uberApp.services.*;
 import jakarta.transaction.Transactional;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -51,6 +54,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @Transactional
     public RideDto cancelRide(Long rideId) {
         Ride ride = rideService.getRideById(rideId);
         Driver driver = getCurrentDriver();
@@ -67,6 +71,7 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    @Transactional
     public RideDto startRide(Long rideId,String otp) {
         Ride ride = rideService.getRideById(rideId);
 
@@ -140,7 +145,11 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Driver getCurrentDriver() {
-        return driverRepository.findById(2L).orElseThrow(() -> new RuntimeException("Driver not found with id "+ 2));
+        User user =(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        return driverRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Driver not found with id " + user.getId()));
+
     }
 
     @Override
