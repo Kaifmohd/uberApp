@@ -13,16 +13,21 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Table(
+        indexes = {
+                @Index(name = "idx_ride_request_rider",columnList = "rider_id")
+        }
+)
 public class RideRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "Geometry(Point, 4326)")
+    @Column(columnDefinition = "geometry(Point, 4326)")
     private Point pickupLocation;
 
-    @Column(columnDefinition = "Geometry(Point, 4326)")
+    @Column(columnDefinition = "geometry(Point, 4326)")
     private Point dropOffLocation;
 
     @CreationTimestamp
@@ -37,5 +42,6 @@ public class RideRequest {
     @Enumerated(EnumType.STRING)
     private RideRequestStatus rideRequestStatus;
 
+    private Double fare;
 
 }
